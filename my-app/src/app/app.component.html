@@ -1,8 +1,9 @@
 <h1>{{title}}</h1>
 
-<form (ngSubmit)="handleSubmit($event)">
-  <input autofocus placeholder="What's next?" [(ngModel)]="text" name="text" />
-  <button>Submit</button>
-</form>
 
-<app-list [todos]="todos"></app-list>
+<app-form (onSubmit)="handleSubmit($event)"></app-form>
+
+<app-list [todos]="todos"
+          (onDone)="handleDone($event)"
+          (onRemove)="handleRemove($event)">
+</app-list>

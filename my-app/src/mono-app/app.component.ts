@@ -30,4 +30,6 @@ export class AppComponent {
   handleDone(index:number){
     this.todos[index].done = true;
   }
+
+ 
 }

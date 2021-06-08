@@ -1,33 +1,41 @@
-import { Component, Input } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from './api/api.service';
+import { Todo } from './list/Todo';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Todos List'
-  text: string='';
-  todos = [
-    { id:1, text:'Learn Angular', done:true },
-    { id:2, text:'Suffer', done:false},
-    { id:3, text:'Switch to React', done:false}
-  ];
+  todos: Todo[] = [];
 
-  handleSubmit(event: Event){
-    event.preventDefault();
-    console.log(this.text);
-    const maxId = this.todos.length ? this.todos[this.todos.length-1].id : 0;
-    this.todos.push( { id:maxId + 1, text: this.text, done: false } );
-    this.text='';
+  constructor(private api: ApiService){
+
+  }
+  async ngOnInit(){
+    this.todos = await this.api.fetchTodos();
   }
 
-  handleRemove(index:number){
-    this.todos.splice(index,1);
-    
+  async handleSubmit(text:string){
+    await this.api.addTodo(text)
+    this.todos = await this.api.fetchTodos();
   }
 
-  handleDone(index:number){
-    this.todos[index].done = true;
+  async handleDone(id:number){
+    const todo = this.todos.find((todo)=>todo.id===id);
+    if(todo){
+      await this.api.toggleDone(todo);
+    }
+    this.todos = await this.api.fetchTodos();
   }
+
+  async handleRemove(id:number){
+    await this.api.removeTodo(id);
+    this.todos = await this.api.fetchTodos();
+  }
+
+  
 }

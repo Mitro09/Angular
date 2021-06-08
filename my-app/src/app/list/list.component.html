@@ -1,7 +1,8 @@
 <ul>
-    <li *ngFor="let todo of todos; index as i"> 
+    <li *ngFor="let todo of todos;"> 
       <span [ngClass]= "{done: todo.done}">{{todo.text}}</span>
-      
+      <button (click)="handleDone(todo.id)">Done</button>
+      <button (click)="handleRemove(todo.id)">remove</button>
     </li>
 </ul>
   
