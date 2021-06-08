@@ -1,0 +1,7 @@
+<ul>
+    <li *ngFor="let todo of todos; index as i"> 
+      <span [ngClass]= "{done: todo.done}">{{todo.text}}</span>
+      
+    </li>
+</ul>
+  
